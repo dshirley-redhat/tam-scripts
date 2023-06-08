@@ -16,10 +16,10 @@ fi
 
 echo "" > $OUTPUT_FILE
 
-REDHAT_OPERATORS=registry.redhat.io/redhat/redhat-operator-index:v${OCP_VERSION}
-CERTIFIED_OPERATORS=registry.redhat.io/redhat/certified-operator-index:v${OCP_VERSION}
-COMMUNITY_OPERATORS=registry.redhat.io/redhat/community-operator-index:v${OCP_VERSION}
-REDHAT_MARKETPLACE_OPERATORS=registry.redhat.io/redhat/redhat-marketplace-index:v${OCP_VERSION}
+REDHAT_OPERATORS=registry.redhat.io/redhat/redhat-operator-index
+CERTIFIED_OPERATORS=registry.redhat.io/redhat/certified-operator-index
+COMMUNITY_OPERATORS=registry.redhat.io/redhat/community-operator-index
+REDHAT_MARKETPLACE_OPERATORS=registry.redhat.io/redhat/redhat-marketplace-index
 
 CATALOGS=($REDHAT_OPERATORS $CERTIFIED_OPERATORS $COMMUNITY_OPERATORS $REDHAT_MARKETPLACE_OPERATORS)
 
@@ -28,14 +28,18 @@ CATALOGS=($REDHAT_OPERATORS $CERTIFIED_OPERATORS $COMMUNITY_OPERATORS $REDHAT_MA
 #grpcurl -plaintext localhost:50051 describe api.ListPackageRequest 
 
 for catalog in ${CATALOGS[@]}; do
+    catalog_name=$(basename -- "$catalog")
+
     echo "Catalog $catalog" >> $OUTPUT_FILE
     echo "Catalog $catalog"
 
-    podman pull $catalog
+    container_name=$catalog_name
+
+    podman pull $catalog:v${OCP_VERSION}
     podman run -p50051:50051 \
-        --name CATALOG \
+        --name $container_name \
         -d \
-        "${catalog}" 
+        "${catalog}:v${OCP_VERSION}" 
 
     operatorListRaw=$(grpcurl -plaintext  localhost:50051 api.Registry/ListPackages | jq '.name' -r)
     operatorList=$(tr ' ' '\n' <<< "$operatorListRaw" | sort)
@@ -58,5 +62,5 @@ for catalog in ${CATALOGS[@]}; do
         :
     done <<< "$operatorList"
     echo "removing old container"
-    podman rm -f catalog
+    podman rm -f $container_name
 done <<< "$CATALOGS"
