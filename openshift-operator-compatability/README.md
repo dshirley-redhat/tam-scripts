@@ -10,10 +10,14 @@
           ],
    ~~~
 
-1. Install jq on your system using yum/rpm or the standard package installer for you linux system
+2. Install jq on your system using yum/rpm or the standard package installer for you linux system
    ~~~
     yum install jq
    ~~~
+
+3. Install podman on your system
+   1. https://podman.io/docs/installation
+
 
 ## Running the script
 
