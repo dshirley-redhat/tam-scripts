@@ -4,6 +4,9 @@
 
 Run ```./install_crc.sh``` from a terminal, this will download and install the crc installer.
 
+If you require a specific OCP version run ```getCrcOcpVersions.sh``` to get the compatible crc version and update ```./install_crc.sh``` with the CRC_VERSION you require.
+
+
 #### Creating a local OCP instance with crc
 
 Run the following to create and start the local cluster
