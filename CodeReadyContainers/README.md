@@ -13,7 +13,7 @@ Run the following to create and start the local cluster
 
 ```
 crc setup
-crc start
+crc start -p $PULL_SECRET_PATH/pull-secret.txt
 ```
 
 #### Stopping the cluster
