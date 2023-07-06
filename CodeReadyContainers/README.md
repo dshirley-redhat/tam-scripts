@@ -34,7 +34,7 @@ crc cleanup
 
 Run ```oc adm upgrade```
 
-If you see the following message, run through the steps in [1]
+If you see the following message, run through the steps in [i]
 ```
 Cluster version is 4.11.1
 
