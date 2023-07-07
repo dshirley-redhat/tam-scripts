@@ -9,12 +9,14 @@ If you require a specific OCP version run ```getCrcOcpVersions.sh``` to get the 
 
 #### Creating a local OCP instance with crc
 
-Run the following to create and start the local cluster
+Run the following to create and start the local cluster. You can download your pull-secret from here [i]
 
 ```
 crc setup
 crc start -p $PULL_SECRET_PATH/pull-secret.txt
 ```
+
+[i] - https://console.redhat.com/openshift/downloads
 
 #### Stopping the cluster
 
